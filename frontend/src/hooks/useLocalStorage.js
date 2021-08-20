@@ -1,22 +1,22 @@
-import {useEffect, useState} from 'react'
-const PREFIX = 'chatrooms'
+import { useEffect, useState } from 'react'
 
-export default function useLocalStorage(key, init) {
-   const prefixKey = PREFIX + key
-   const[value, setValue] = useState(()=> {
-       const jsonValue = localStorage.getItem(prefixKey)
-       if (jsonValue!= null) return JSON.parse(jsonValue)
-       if(typeof init === 'function') {
-           return init()
-       }
-       else{
-           return init
-       }
-   })
-   useEffect(()=> {
-       localStorage.setItem(prefixKey, JSON.stringify(value))
-   }, [prefixKey, value])
-   
-   return [value, setValue]
+const PREFIX = 'whatsapp-clone-'
+
+export default function useLocalStorage(key, initialValue) {
+  const prefixedKey = PREFIX + key
+  const [value, setValue] = useState(() => {
+    const jsonValue = localStorage.getItem(prefixedKey)
+    if (jsonValue != null) return JSON.parse(jsonValue)
+    if (typeof initialValue === 'function') {
+      return initialValue()
+    } else {
+      return initialValue
+    }
+  })
+
+  useEffect(() => {
+    localStorage.setItem(prefixedKey, JSON.stringify(value))
+  }, [prefixedKey, value])
+
+  return [value, setValue]
 }
-
